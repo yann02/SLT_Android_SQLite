@@ -1,0 +1,174 @@
+1-需要的素材
+	Eclipse
+	ADT(要压缩包)
+	Android SDK
+
+2-检测是否已经安装过
+	查看Eclipse里面的Window菜单，是否有安卓SDK和虚拟机
+3-安装开发环境
+	1-打开Eclipse里面的Help里面的Install new software
+	2-点击Add，弹出Add对话框。name里面填写adt,location里面选择adt.zip
+	3-然后next.安装好后需要重启Eclipse
+	4-重启Eclipse后，需要选择解压后SDK目录（千万注意：SDK目录不能含有中文，不能放置桌面）
+
+
+----------------------安卓项目文件夹解析----------------------------
+1-src：写JAVA源代码
+2-gen：自动生成后的文件(只读)。R.java
+3-bin: android应用编译后生成.apk文件放在这里
+4-libs：第三方的类库
+5-res:是资源文件（html/css/js/images）。
+	layout:XML文件。画面布局的文件
+	drawable-*：图片文件
+	values:预定义的值文件（样式）
+6-AndroidManifest.xml：整个安卓应用的核心配置文件
+
+作业：
+1-拖控件
+2-熟悉布局界面
+3-实现发送短信的界面
+4-实现掌上巡检项目*******
+
+1-实现发送短信的功能
+2-实现掌上巡检项目*******
+
+1-实现用户注册和登录
+2-实现掌上巡检项目
+
+1-复习第二阶段的课程
+2-试卷
+
+
+--------------------------------------------------
+A-->B
+Activity 存放在栈里面的（先进后出）
+
+Android是多线程的操作系统（应用打开过多，则系统资源占用就越多，可能回死机（当应用没有得到正确关闭））
+为了解决以上问题，Android 提供了生命周期机制
+
+运行Activity
+onCreate
+onStart
+onResume
+
+按返回键
+onPause
+onStop
+onDestory
+
+按HOME键
+onPause
+onStop
+
+按HOME键之后再次进入
+onRestart
+onStart
+onResume
+
+切换横屏后，方法：
+onSaveInstanceState
+onPause
+onStop
+onDestory
+onCreate
+onStart
+onRestoreInstanceSate
+onResume
+
+
+--7大方法：
+onCreate：（用于初始化设置，生命周期只会调用一次）1-设置布局；2-绑定UI、监听器
+onStart：活动可见，但是用户仍然未能获得焦点交互时候调用
+onResume：活动可见，但是用户可以获得焦点交互时候调用
+onRestart：活动停止然后重新被启动时候调用
+onPause：暂停的状态，还能看见，但是无法点击控件。一般用来保存数据
+onStop：当新的活动完全覆盖当前的，当前不可见时候调用
+onDestory：销毁内存时候调用（系统销毁）只会调用一次
+
+--4段生命周期
+1-完整生命周期 ：
+onCreate ->  onStart -> onResume
+-> onPause -> onStop -> onDestory
+
+2-可视周期：
+onStart -> onResume
+-> onPause -> onStop
+
+3-前台生命周期
+onResume
+-> onPause
+
+4-后台生命周期
+onPause
+->onStop
+
+-------------------------------------------
+调试工具：
+1-Logcat:实时的系统日志信息。
+2-DDMS:实现虚拟机/真机进行调试的GUI工具
+	devices:显示已经连接的设备
+	threads:显示设备中运行的线程。包括主线程和子线程
+	Heap:显示设备的堆的使用情况（借此查看内存使用）
+	Allocation Tracker:显示设备中运行的应用有哪些对象已经被分配到表格中，点击对象则可以查看Heap中的内存分配情况
+	network statistics :设置占用的网络统计、
+	file exploer:显示设置的文件系统（Linux）,也可以使用它进行文件的导入和导出
+	Emulator Control:模拟设置功能。例如：打电话、发短信、GPs
+3-adb:android debug bridge(安卓调试桥梁)。用来连接设备（系统）和DDMS（界面）的通信桥梁
+	adb通过socket tcp 5554/5556等端口进行通信的
+	adb一般用来进行调试手机。例如：安装软件、系统升级、运行shell命令
+	adb是连接手机和电脑的桥梁，让用户在电脑上对手机进行全面的操作
+	
+	adb使用
+	1-配置环境：将SDK文件夹下platform-tools和tools放入path路径下	
+	2-写入命令
+
+	android list targets:显示所支持的SDK版本
+	android list avd : 显示所有的虚拟机
+	adb devices:显示正在连接的设备
+	ddms:启动DDMS
+	android create avd --name test2222 --target 2(id来自android list targets，创建虚拟机)
+	android delete avd --name test2222（删除虚拟机）
+	mksdcard 200M ~/test2222.img(创建200m SD卡)
+	
+	开启虚拟机：emulator -avd test2222
+	查看已连接的虚拟机：adb devices
+	adb shell(前提：得有虚拟机保持着连接。如果没有连接，可以使用开启命令开启虚拟机)
+	
+	删除预装在系统的应用(需要权限)
+	cd system/app
+	rm abc.apk
+
+	adb root(获取管理员权限)
+
+	adb kill-server 终止adb服务器进程
+	
+
+-------------------------------------------------------
+SQLITE：属于关系型数据库。
+是一种链接库型的数据库，可以直接对磁盘进行读写。
+跨平台
+
+数据操作步骤：
+1-创建数据库
+2-打开数据库
+3-创建表、修改表、删除表、操作（CRUD）
+4-关闭数据库
+
+SQLiteOpenHelper：安卓为了方便SQLITE操作提供的一个抽象类。
+数据库操作类继承SQLiteOpenHelper，需要重写onCreate和onUpgrade。实现构造器
+
+
+getReadableDatabase()
+getWritableDatabase()
+共同点：
+都是用于打开数据库。如果数据库存在则直接打开，如果数据库不存在，则新建
+
+区别：
+但是当我磁盘满了，数据库不可以写入了，
+在这种情况下，getReadableDatabase()会以只读的方式打开数据库；
+getWritableDatabase()如果读数据库直接异常
+
+	
+
+
+
